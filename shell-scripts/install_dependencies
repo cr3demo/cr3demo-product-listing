@@ -1,0 +1,14 @@
+#!/bin/bash  
+sudo yum update -y  
+sudo amazon-linux-extras install epel -y
+sudo yum install stress -y
+sudo yum install httpd -y
+sudo service httpd start
+sudo chkconfig httpd on
+sudo service httpd stop
+sudo usermod -a -G apache ec2-user
+sudo chown -R ec2-user:apache /var/www
+sudo chmod 2775 /var/www
+find /var/www -type d -exec sudo chmod 2775 {} \;
+
+
