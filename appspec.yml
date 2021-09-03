@@ -2,22 +2,25 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/html/WordPress
+    destination: /var/www/html/
 hooks:
+  ApplicationStop:
+    - location: shell-scripts/stop_server.sh
+      timeout: 45
+      runas: ec2-user
   BeforeInstall:
     - location: shell-scripts/install_dependencies.sh
       timeout: 300
-      runas: root
+      runas: ec2-user
+  DownloadBundle:
+
+  Install:
+
   AfterInstall:
     - location: shell-scripts/change_permissions.sh
-      timeout: 300
-      runas: root
+      timeout: 60
+      runas: ec2-user
   ApplicationStart:
     - location: shell-scripts/start_server.sh
-    - location: scripts/create_test_db.sh
-      timeout: 300
-      runas: root
-  ApplicationStop:
-    - location: shell-scripts/stop_server.sh
-      timeout: 300
-      runas: root
+      timeout: 45
+      runas: ec2-user
